@@ -3,13 +3,12 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
+  name: wordpress-volume
   namespace: myargo
-  name: wp-pvc1
-  labels:
-    app: wordpress
 spec:
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
+  storageClassName: block-storage-class-name

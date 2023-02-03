@@ -3,48 +3,39 @@ kind: Deployment
 metadata:
   namespace: myargo
   name: wordpress
-  labels:
-    app: wordpress
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: wordpress
-      tier: frontend
     # matchExpressions:
     #   - {key : app, operator: In, values: [wordpress]}
-  strategy:
-    type: Recreate
   template:
     metadata:
-      # name: wppod1
       labels:
-        # env: testing
         app: wordpress
-        tier: frontend
-        region: IN
     spec:
       containers:
-      - image: wordpress:5.5-apache
+      - image: wordpress:5.8.3-php7.4-apache
         name: wordpress
         # env:
-          # - name: WORDPRESS_DB_HOST
-          #   value: word-sql-db
+        #   - name: WORDPRESS_DB_HOST
+        #     value: word-sql-db
 
-          # - name: WORDPRESS_DB_PASSWORD
-          #   valueFrom:
-          #     secretKeyRef:
-          #       name: mysqlsecret
-          #       key: root_pass
+        #   - name: WORDPRESS_DB_PASSWORD
+        #     valueFrom:
+        #       secretKeyRef:
+        #         name: mysqlsecret
+        #         key: root_pass
         ports:
           - containerPort: 80
             name: wordpress
             
         volumeMounts:
-          - name: wp-vol1
-            mountPath: /var/www/html
+          - name: wordpress-data
+            mountPath: /var/www
 
       volumes:
-        - name: wp-vol1
+        - name: wordpress-data
           persistentVolumeClaim:
-            claimName: wp-pvc1
+            claimName: wordpress-volume

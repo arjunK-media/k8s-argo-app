@@ -4,13 +4,15 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: myargo
-  name: wordpress
+  name: wordpress-svc
   labels:
     app: wordpress
 spec:
   ports:
-    - port: 80
-      nodePort: 30000
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
   selector:
     app: wordpress
     tier: frontend
